@@ -10,6 +10,10 @@ for (const btn of buttons) {
             display.value = 0;
             memory = null;
             operator = null;
+            //loop to remove 'clicked' class from all operator buttons
+            for (i = 0; i < operators.length; i++) {
+                operators.item(i).classList.remove(`clicked`);
+            }
         } else if (btn.id === `clear`) {//clear button
             display.value = 0;
             document.getElementById(`clear`).classList.add(`hidden`);
@@ -21,11 +25,11 @@ for (const btn of buttons) {
         } else if (btn.classList[1] === `operator`) {//operator buttons
             operator = btn.id;
             btn.classList.add(`clicked`);
-            if (btn.id === `plus`) {
-                if (memory === null) {
-                    memory = display.value * 1;
-                }
-
+            if (memory === null) {
+                memory = display.value * 1;
+            } else if (btn.id === `plus`) {
+                memory += display.value * 1;
+                display.value = memory;
             }
         } else if (btn.classList[1] === `dark`) {//numbers and decimal buttons
             document.getElementById(`allClear`).classList.add(`hidden`);
@@ -41,6 +45,8 @@ for (const btn of buttons) {
                     display.value = display.value + btn.value;
                 }
             } else if (display.value == 0 && !display.value.includes(`.`)) {//number buttons
+                display.value = btn.value;
+            } else if (operator !== null) {
                 display.value = btn.value;
             } else {
                 display.value = display.value + btn.value;
